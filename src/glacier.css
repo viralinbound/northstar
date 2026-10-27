@@ -1,0 +1,258 @@
+/* Light edition "Glacier": replaces the earlier ink-border / hard-shadow look with soft depth and gradients.
+   Loaded after every other stylesheet so these light rules win. */
+
+:root[data-theme='light'] body::before {
+  background-image: linear-gradient(rgba(15, 23, 42, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(15, 23, 42, 0.035) 1px, transparent 1px);
+}
+
+/* surfaces: rounded, hairline border, soft shadow */
+:root[data-theme='light'] .cap-card,
+:root[data-theme='light'] .planner__panel,
+:root[data-theme='light'] .planner__map,
+:root[data-theme='light'] .compare,
+:root[data-theme='light'] .robot-stage,
+:root[data-theme='light'] .scenarios__panel,
+:root[data-theme='light'] .split,
+:root[data-theme='light'] .mission-card,
+:root[data-theme='light'] .lead,
+:root[data-theme='light'] .contact .lead {
+  border: 1px solid var(--line-2);
+  border-radius: 18px;
+  box-shadow: var(--shadow-soft);
+  background-color: #fff;
+}
+:root[data-theme='light'] .lead:focus-within {
+  box-shadow: var(--shadow-lift);
+  translate: none;
+}
+:root[data-theme='light'] .layers__tabs,
+:root[data-theme='light'] .segmented {
+  border: 1px solid var(--line-2);
+  background: #fff;
+  box-shadow: var(--shadow-soft);
+}
+:root[data-theme='light'] .layers__tabs button[aria-selected='true'],
+:root[data-theme='light'] .segmented button[aria-pressed='true'] {
+  background: var(--grad);
+  color: #fff;
+}
+
+/* buttons */
+:root[data-theme='light'] .btn {
+  border-radius: 999px;
+}
+:root[data-theme='light'] .btn--primary,
+:root[data-theme='light'] .contact .btn--primary,
+:root[data-theme='light'] .missions__end .btn--primary {
+  background: var(--grad);
+  color: #fff;
+  border: 0;
+  box-shadow: 0 12px 28px -12px rgba(var(--cyan-rgb), 0.75);
+}
+:root[data-theme='light'] .btn--primary:hover {
+  background: var(--grad);
+  box-shadow: 0 16px 34px -12px rgba(var(--violet-rgb), 0.75);
+  translate: 0 -1px;
+}
+:root[data-theme='light'] .btn--primary:active {
+  box-shadow: 0 6px 16px -8px rgba(var(--cyan-rgb), 0.7);
+  translate: none;
+}
+:root[data-theme='light'] .btn--ghost,
+:root[data-theme='light'] .contact .btn--ghost {
+  border: 1px solid var(--line-2);
+  background: #fff;
+}
+
+/* the accent word: gradient ink instead of a highlighter stripe */
+:root[data-theme='light'] .hero-title em,
+:root[data-theme='light'] .display em,
+:root[data-theme='light'] .section-title em,
+:root[data-theme='light'] .contact__title em,
+:root[data-theme='light'] .flight__title em {
+  background: var(--grad);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  padding: 0 0.06em 0 0;
+  animation: none;
+}
+:root[data-theme='light'] .split-words em:has(.w) {
+  background: none;
+  color: inherit;
+}
+:root[data-theme='light'] .split-words em .w > span {
+  background: var(--grad);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  padding-right: 0.06em;
+}
+
+/* chips, eyebrows, numbers */
+:root[data-theme='light'] .eyebrow--chip {
+  background: #fff;
+  color: var(--text);
+  border: 1px solid var(--line-2);
+  box-shadow: var(--shadow-soft);
+}
+:root[data-theme='light'] .eyebrow--chip::before {
+  background: var(--grad);
+}
+:root[data-theme='light'] .eyebrow:not(.eyebrow--chip) {
+  color: var(--cyan-text);
+}
+:root[data-theme='light'] .hero__n,
+:root[data-theme='light'] .lead__tick {
+  background: var(--grad);
+  border: 0;
+  color: #fff;
+}
+:root[data-theme='light'] .hero__n::after {
+  border-color: var(--violet);
+}
+:root[data-theme='light'] .stats dd {
+  color: var(--cyan-text);
+}
+
+/* form */
+:root[data-theme='light'] .lead input[type='text'],
+:root[data-theme='light'] .lead input[type='email'],
+:root[data-theme='light'] .lead input[type='tel'],
+:root[data-theme='light'] .lead select,
+:root[data-theme='light'] .lead textarea {
+  border: 1px solid var(--line-2);
+  border-radius: 10px;
+  background: #f8fafd;
+}
+:root[data-theme='light'] .lead__chip {
+  border: 1px solid var(--line-2);
+  background: #f8fafd;
+}
+:root[data-theme='light'] .lead__chip.is-on {
+  background: var(--grad);
+  border-color: transparent;
+  color: #fff;
+}
+:root[data-theme='light'] .lead__bar > span {
+  background: var(--grad);
+}
+
+/* colour blocks become gradients */
+:root[data-theme='light'] .marquee {
+  background: var(--grad);
+  border-block: 0;
+}
+:root[data-theme='light'] .marquee span:not(.is-outline) {
+  color: #fff;
+}
+:root[data-theme='light'] .marquee span.is-outline {
+  color: transparent;
+  -webkit-text-stroke: 1.4px rgba(255, 255, 255, 0.9);
+}
+:root[data-theme='light'] .marquee svg {
+  fill: #fff;
+}
+:root[data-theme='light'] .missions {
+  background: linear-gradient(135deg, #0b7cff 0%, #5b4dff 55%, #7c5cff 100%);
+}
+:root[data-theme='light'] .missions .eyebrow {
+  color: rgba(255, 255, 255, 0.85);
+}
+:root[data-theme='light'] .missions .section-title em,
+:root[data-theme='light'] .missions .split-words em .w > span {
+  background: linear-gradient(120deg, #ffffff, #c9f5ee);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+:root[data-theme='light'] .mission-card {
+  border: 0;
+  box-shadow: 0 30px 60px -30px rgba(10, 20, 60, 0.6);
+}
+:root[data-theme='light'] .mission-card:nth-child(odd) .mission-card__art {
+  background: #eef5ff;
+}
+:root[data-theme='light'] .mission-card:nth-child(even) .mission-card__art {
+  background: #f2efff;
+}
+:root[data-theme='light'] .mission-card .chip--drone {
+  background: var(--cyan);
+  border-color: var(--cyan);
+  color: #fff;
+}
+:root[data-theme='light'] .mission-card .chip--robot {
+  background: var(--violet);
+  border-color: var(--violet);
+  color: #fff;
+}
+:root[data-theme='light'] .mission-art .drone-mini,
+:root[data-theme='light'] .mission-art .robot-mini {
+  fill: var(--gold);
+}
+:root[data-theme='light'] .missions__end .btn--primary {
+  background: #fff;
+  color: var(--cyan-text);
+}
+:root[data-theme='light'] .contact {
+  background: linear-gradient(135deg, #eaf3ff 0%, #f1edff 100%);
+  border-block: 1px solid var(--line);
+  --muted: #5b6b82;
+}
+:root[data-theme='light'] .contact .eyebrow {
+  color: var(--cyan-text);
+}
+:root[data-theme='light'] .contact__ticks li::before {
+  background-color: var(--cyan);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M6 12.5l4 4 8-9' fill='none' stroke='white' stroke-width='2.6'/%3E%3C/svg%3E");
+}
+:root[data-theme='light'] .industries__list li::before {
+  background: rgba(var(--cyan-rgb), 0.07);
+}
+:root[data-theme='light'] .industries__list li:hover,
+:root[data-theme='light'] .industries__list li:focus-visible {
+  --muted: var(--text-2);
+  --faint: var(--cyan-text);
+  --gold-text: var(--cyan-text);
+}
+:root[data-theme='light'] .split__half--air {
+  background: #eef5ff;
+}
+:root[data-theme='light'] .split__half--ground {
+  background: #f2efff;
+}
+:root[data-theme='light'] .footer__word {
+  background: var(--grad);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+:root[data-theme='light'] .footer__word span:hover {
+  color: transparent !important;
+}
+:root[data-theme='light'] .mobile-cta {
+  background: #fff;
+  border: 1px solid var(--line-2);
+  box-shadow: var(--shadow-lift);
+}
+:root[data-theme='light'] .hud-frame span {
+  border-color: rgba(var(--cyan-rgb), 0.6);
+}
+:root[data-theme='light'] .progress-bar > span {
+  background: var(--grad);
+}
+:root[data-theme='light'] .cap-card {
+  background: rgba(255, 255, 255, 0.9);
+}
+@media (max-width: 760px) {
+  :root[data-theme='light'] .cap-card,
+  :root[data-theme='light'] .planner__panel,
+  :root[data-theme='light'] .planner__map,
+  :root[data-theme='light'] .compare,
+  :root[data-theme='light'] .robot-stage,
+  :root[data-theme='light'] .scenarios__panel,
+  :root[data-theme='light'] .split {
+    box-shadow: var(--shadow-soft);
+  }
+}

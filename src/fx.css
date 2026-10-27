@@ -1,0 +1,776 @@
+/* v3 effects: intro, cursor, missions, and the loud art direction for each edition. */
+
+
+/* ───────── cursor ───────── */
+.cursor-ring,
+.cursor-dot {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 150;
+  pointer-events: none;
+  opacity: 0;
+  mix-blend-mode: difference;
+  transition: opacity 0.3s ease;
+}
+.cursor-ring.is-visible,
+.cursor-dot.is-visible {
+  opacity: 1;
+}
+.cursor-dot {
+  width: 6px;
+  height: 6px;
+  margin: -3px 0 0 -3px;
+  border-radius: 50%;
+  background: #fff;
+}
+.cursor-ring {
+  width: 38px;
+  height: 38px;
+  margin: -19px 0 0 -19px;
+}
+.cursor-ring::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 1.5px solid #fff;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.3s ease;
+}
+.cursor-ring.is-hover::before {
+  transform: scale(1.7);
+}
+.cursor-ring.has-label::before {
+  transform: scale(2.3);
+  background: #fff;
+}
+.cursor-ring.is-down::before {
+  transform: scale(0.8);
+}
+.cursor-ring::after {
+  content: attr(data-label);
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font: 600 10px var(--mono);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #000;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+.cursor-ring.has-label::after {
+  opacity: 1;
+}
+
+/* ───────── progress bar + grain ───────── */
+.progress-bar {
+  position: fixed;
+  inset: 0 0 auto;
+  height: 3px;
+  z-index: 60;
+  pointer-events: none;
+}
+.progress-bar > span {
+  display: block;
+  height: 100%;
+  transform: scaleX(0);
+  transform-origin: left;
+  background: linear-gradient(90deg, var(--cyan), var(--violet), var(--gold));
+}
+:root[data-theme='light'] .progress-bar > span {
+  background: linear-gradient(90deg, var(--cobalt), var(--pop));
+}
+.grain {
+  position: fixed;
+  inset: 0;
+  z-index: 70;
+  pointer-events: none;
+  opacity: 0.06;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+:root[data-theme='light'] .grain {
+  opacity: 0.035;
+}
+
+/* ───────── hero sticker + HUD frame ───────── */
+.hero-badge {
+  position: absolute;
+  right: 4%;
+  top: -18px;
+  width: 118px;
+  height: 118px;
+  display: block;
+  border-radius: 50%;
+  animation: fade-up 1s 1s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.hero-badge svg {
+  width: 100%;
+  height: 100%;
+  animation: spin 18s linear infinite;
+}
+.hero-badge text {
+  font: 700 10.5px var(--mono);
+  letter-spacing: 0.18em;
+  fill: var(--text);
+}
+.hero-badge__star {
+  fill: var(--gold);
+  transform-origin: 60px 60px;
+  animation: spin 18s linear infinite reverse;
+}
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.hud-frame {
+  position: absolute;
+  inset: 84px var(--gutter) 64px;
+  pointer-events: none;
+}
+.hud-frame span {
+  position: absolute;
+  width: 26px;
+  height: 26px;
+  border-color: rgba(var(--cyan-rgb), 0.6);
+  border-style: solid;
+  border-width: 0;
+}
+.hud-frame span:nth-child(1) {
+  top: 0;
+  left: 0;
+  border-top-width: 1.5px;
+  border-left-width: 1.5px;
+}
+.hud-frame span:nth-child(2) {
+  top: 0;
+  right: 0;
+  border-top-width: 1.5px;
+  border-right-width: 1.5px;
+}
+.hud-frame span:nth-child(3) {
+  bottom: 0;
+  left: 0;
+  border-bottom-width: 1.5px;
+  border-left-width: 1.5px;
+}
+.hud-frame span:nth-child(4) {
+  bottom: 0;
+  right: 0;
+  border-bottom-width: 1.5px;
+  border-right-width: 1.5px;
+}
+:root[data-theme='light'] .hud-frame span {
+  border-color: var(--text);
+}
+
+/* ───────── missions ───────── */
+.missions {
+  position: relative;
+  padding: clamp(80px, 9vw, 120px) 0 clamp(60px, 7vw, 100px);
+  overflow: hidden;
+  min-height: 100vh;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.missions__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  gap: 24px;
+  margin-bottom: clamp(28px, 4vw, 48px);
+}
+.missions__count {
+  font-size: 13px;
+  color: var(--faint);
+  letter-spacing: 0.1em;
+  white-space: nowrap;
+}
+.missions__count span {
+  font-size: clamp(2rem, 4vw, 3.4rem);
+  font-weight: 700;
+  color: var(--text);
+  font-family: var(--font);
+  font-stretch: 120%;
+  letter-spacing: -0.03em;
+}
+.missions__track {
+  display: flex;
+  gap: clamp(16px, 2.4vw, 32px);
+  padding-inline: max(var(--gutter), calc((100vw - var(--max)) / 2 + var(--gutter)));
+  width: max-content;
+  will-change: transform;
+}
+.mission-card {
+  --mx: 50%;
+  --my: 50%;
+  position: relative;
+  width: clamp(300px, 34vw, 480px);
+  flex-shrink: 0;
+  border-radius: 22px;
+  overflow: hidden;
+  border: 1px solid var(--line-2);
+  background: var(--surface);
+  transition: transform 0.25s ease-out;
+}
+.mission-card__art {
+  aspect-ratio: 16 / 10;
+  display: grid;
+  place-items: center;
+  border-bottom: 1px solid var(--line);
+  background: radial-gradient(70% 80% at 50% 100%, rgba(var(--cyan-rgb), 0.12), transparent 70%);
+}
+.mission-art {
+  width: 92%;
+  height: auto;
+  overflow: visible;
+}
+.mission-art .ln {
+  fill: none;
+  stroke: var(--text);
+  stroke-width: 1.6;
+  stroke-linejoin: round;
+}
+.mission-art .dim {
+  opacity: 0.4;
+}
+.mission-art .grid {
+  stroke: var(--line-3);
+  stroke-dasharray: 3 5;
+  fill: none;
+}
+.mission-art .hot {
+  fill: var(--pop);
+  opacity: 0.75;
+  filter: blur(2px);
+  animation: pulse-hot 2.4s ease-in-out infinite;
+}
+.mission-art .hot--2 {
+  animation-delay: 0.8s;
+}
+@keyframes pulse-hot {
+  50% {
+    opacity: 0.35;
+  }
+}
+.mission-art .beam {
+  stroke: var(--cyan);
+  stroke-width: 1.2;
+  stroke-dasharray: 4 5;
+  fill: none;
+  animation: march 1.2s linear infinite;
+}
+@keyframes march {
+  to {
+    stroke-dashoffset: -18;
+  }
+}
+.mission-art .orbit {
+  fill: none;
+  stroke: var(--cyan);
+  stroke-dasharray: 2 6;
+  opacity: 0.7;
+}
+.mission-art .crack {
+  fill: none;
+  stroke: var(--pop);
+  stroke-width: 2;
+}
+.mission-art .drone-mini,
+.mission-art .robot-mini {
+  fill: var(--gold);
+  stroke: var(--text);
+  stroke-width: 1.4;
+  stroke-linecap: round;
+}
+.mission-art .drone-mini {
+  animation: hover-bob 3s ease-in-out infinite;
+}
+@keyframes hover-bob {
+  50% {
+    translate: 0 -6px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .mission-art .hot,
+  .mission-art .beam,
+  .mission-art .drone-mini,
+  .hero-badge svg,
+  .hero-badge__star {
+    animation: none;
+  }
+}
+.mission-card__body {
+  padding: 22px 24px 26px;
+}
+.mission-card__meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  color: var(--faint);
+  margin-bottom: 14px;
+}
+.mission-card__meta > span:first-child {
+  margin-right: 4px;
+}
+.chip {
+  padding: 4px 9px;
+  border-radius: 99px;
+  border: 1px solid var(--line-2);
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 10.5px;
+}
+.chip--drone {
+  color: var(--cyan-text);
+  border-color: var(--cyan);
+}
+.chip--robot {
+  color: var(--gold-text);
+  border-color: var(--gold);
+}
+.mission-card h3 {
+  font-size: clamp(1.35rem, 2vw, 1.75rem);
+  font-weight: 700;
+  font-stretch: 112%;
+  letter-spacing: -0.025em;
+  line-height: 1.08;
+}
+.mission-card__body > p:last-child {
+  margin-top: 10px;
+  color: var(--muted);
+}
+.missions__end {
+  width: clamp(260px, 26vw, 360px);
+  flex-shrink: 0;
+  display: grid;
+  align-content: center;
+  gap: 20px;
+  padding: 0 12px;
+}
+.missions__end p {
+  font-size: clamp(1.6rem, 2.6vw, 2.3rem);
+  font-weight: 700;
+  font-stretch: 112%;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+}
+.missions__end .btn {
+  justify-self: start;
+}
+
+/* spotlight that follows the pointer on interactive surfaces */
+.fx-surface,
+.planner__panel,
+.split__half,
+.scenarios__panel,
+.layers__info {
+  --mx: 50%;
+  --my: 50%;
+  position: relative;
+}
+.fx-surface::after,
+.planner__panel::after,
+.split__half::after,
+.scenarios__panel::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  background: radial-gradient(420px circle at var(--mx) var(--my), rgba(var(--cyan-rgb), 0.14), transparent 45%);
+}
+.fx-surface:hover::after,
+.planner__panel:hover::after,
+.split__half:hover::after,
+.scenarios__panel:hover::after {
+  opacity: 1;
+}
+:root[data-theme='light'] .fx-surface::after,
+:root[data-theme='light'] .planner__panel::after,
+:root[data-theme='light'] .split__half::after,
+:root[data-theme='light'] .scenarios__panel::after {
+  background: radial-gradient(380px circle at var(--mx) var(--my), rgba(var(--pop-rgb), 0.16), transparent 45%);
+}
+
+/* footer word letters lift on hover */
+.footer__word span {
+  display: inline-block;
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), color 0.3s ease;
+}
+.footer__word:hover span {
+  transform: translateY(-8%);
+}
+.footer__word span:hover {
+  transform: translateY(-16%) !important;
+}
+
+/* ═════════════ DARK EDITION: neon, motion, glitch ═════════════ */
+@property --angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+:root:not([data-theme='light']) .mission-card,
+:root:not([data-theme='light']) .planner__panel,
+:root:not([data-theme='light']) .robot-stage {
+  border: 1px solid transparent;
+  background:
+    linear-gradient(var(--panel), var(--panel)) padding-box,
+    conic-gradient(from var(--angle), rgba(var(--cyan-rgb), 0.9), rgba(var(--violet-rgb), 0.25), rgba(var(--gold-rgb), 0.9), rgba(var(--cyan-rgb), 0.15), rgba(var(--cyan-rgb), 0.9)) border-box;
+  animation: border-spin 6s linear infinite;
+}
+@keyframes border-spin {
+  to {
+    --angle: 360deg;
+  }
+}
+:root:not([data-theme='light']) .section-title em,
+:root:not([data-theme='light']) .contact__title em,
+:root:not([data-theme='light']) .display em {
+  background: linear-gradient(100deg, var(--cyan) 0%, var(--violet) 30%, var(--gold) 60%, var(--cyan) 100%);
+  background-size: 220% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow: none;
+  animation: shimmer 6s linear infinite;
+  padding-right: 0.06em;
+}
+/* in word-split headings the animated words are their own layers, so the gradient goes on each word */
+:root:not([data-theme='light']) .split-words em:has(.w) {
+  background: none;
+  animation: none;
+  color: inherit;
+}
+:root:not([data-theme='light']) .split-words em .w > span {
+  background: linear-gradient(100deg, var(--cyan) 0%, var(--violet) 30%, var(--gold) 60%, var(--cyan) 100%);
+  background-size: 220% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: shimmer 6s linear infinite;
+  padding-right: 0.06em;
+}
+@keyframes shimmer {
+  to {
+    background-position: -220% 0;
+  }
+}
+:root:not([data-theme='light']) .industries__list li:hover .industries__name {
+  animation: glitch 0.45s steps(2) 1;
+  text-shadow: 2px 0 rgba(var(--cyan-rgb), 0.8), -2px 0 rgba(255, 60, 140, 0.7);
+}
+@keyframes glitch {
+  0% {
+    clip-path: inset(0 0 60% 0);
+    transform: translateX(14px);
+  }
+  33% {
+    clip-path: inset(40% 0 20% 0);
+    transform: translateX(6px);
+  }
+  66% {
+    clip-path: inset(70% 0 0 0);
+    transform: translateX(12px);
+  }
+  100% {
+    clip-path: inset(0);
+    transform: translateX(10px);
+  }
+}
+:root:not([data-theme='light']) .missions::before,
+:root:not([data-theme='light']) .contact::before {
+  content: '';
+  position: absolute;
+  width: 70vmax;
+  height: 70vmax;
+  left: 50%;
+  top: 50%;
+  translate: -50% -50%;
+  pointer-events: none;
+  z-index: -1;
+  background:
+    radial-gradient(closest-side at 30% 40%, rgba(var(--violet-rgb), 0.22), transparent),
+    radial-gradient(closest-side at 70% 60%, rgba(var(--cyan-rgb), 0.16), transparent);
+  filter: blur(30px);
+  animation: aurora 16s ease-in-out infinite alternate;
+}
+:root:not([data-theme='light']) .contact {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+:root:not([data-theme='light']) .missions {
+  isolation: isolate;
+}
+@keyframes aurora {
+  to {
+    transform: rotate(60deg) scale(1.15);
+  }
+}
+:root:not([data-theme='light']) .flight__veil {
+  background:
+    repeating-linear-gradient(0deg, rgba(var(--cyan-rgb), 0.035) 0 1px, transparent 1px 4px),
+    linear-gradient(90deg, rgba(var(--veil), 0.78) 0%, rgba(var(--veil), 0.35) 38%, rgba(var(--veil), 0) 60%),
+    linear-gradient(0deg, rgba(var(--veil), 0.55) 0%, rgba(var(--veil), 0) 22%);
+}
+:root:not([data-theme='light']) .hero-badge {
+  box-shadow: 0 0 40px rgba(var(--cyan-rgb), 0.25), inset 0 0 0 1px rgba(var(--cyan-rgb), 0.4);
+  background: rgba(6, 10, 20, 0.5);
+  backdrop-filter: blur(6px);
+}
+:root:not([data-theme='light']) .marquee {
+  background: linear-gradient(90deg, var(--ink), var(--ink-violet) 50%, var(--ink));
+}
+:root:not([data-theme='light']) .footer__word span:hover {
+  -webkit-text-stroke-color: var(--cyan);
+  text-shadow: 0 0 40px rgba(var(--cyan-rgb), 0.5);
+}
+@media (prefers-reduced-motion: reduce) {
+  :root:not([data-theme='light']) .mission-card,
+  :root:not([data-theme='light']) .planner__panel,
+  :root:not([data-theme='light']) .robot-stage,
+  :root:not([data-theme='light']) .section-title em,
+  :root:not([data-theme='light']) .contact__title em,
+  :root:not([data-theme='light']) .display em,
+  :root:not([data-theme='light']) .missions::before,
+  :root:not([data-theme='light']) .contact::before {
+    animation: none;
+  }
+}
+
+/* ═════════════ LIGHT EDITION: colour blocks, stickers, marker pen ═════════════ */
+:root[data-theme='light'] {
+  --gold-text: #c2410c;
+}
+:root[data-theme='light'] .section-title em,
+:root[data-theme='light'] .contact__title em,
+:root[data-theme='light'] .display em,
+:root[data-theme='light'] .flight__title em {
+  color: var(--text);
+  font-style: italic;
+  background: linear-gradient(transparent 58%, var(--pop) 58% 88%, transparent 88%);
+  padding: 0 0.08em;
+}
+:root[data-theme='light'] .btn--primary {
+  background: var(--pop);
+  color: var(--ink-strong);
+  border: 1.5px solid var(--ink-strong);
+  box-shadow: 4px 4px 0 var(--ink-strong);
+}
+:root[data-theme='light'] .btn--primary:hover {
+  background: var(--pop);
+  box-shadow: 7px 7px 0 var(--ink-strong);
+  translate: -2px -2px;
+}
+:root[data-theme='light'] .btn--primary:active {
+  box-shadow: 1px 1px 0 var(--ink-strong);
+  translate: 2px 2px;
+}
+:root[data-theme='light'] .eyebrow:not(.eyebrow--chip) {
+  color: var(--cobalt);
+}
+:root[data-theme='light'] .eyebrow--chip::before {
+  background: var(--pop);
+}
+:root[data-theme='light'] .hero-badge {
+  background: var(--pop);
+  border: 1.5px solid var(--ink-strong);
+  box-shadow: 4px 4px 0 var(--ink-strong);
+}
+:root[data-theme='light'] .hero-badge text {
+  fill: var(--ink-strong);
+}
+:root[data-theme='light'] .hero-badge__star {
+  fill: var(--ink-strong);
+}
+/* the marquee becomes a tilted orange tape across the page */
+:root[data-theme='light'] .marquee {
+  background: var(--pop);
+  border-block: 2px solid var(--ink-strong);
+  rotate: -2deg;
+  margin-block: 40px;
+  width: 104vw;
+  margin-left: -2vw;
+}
+:root[data-theme='light'] .marquee span:not(.is-outline) {
+  color: var(--ink-strong);
+}
+:root[data-theme='light'] .marquee span.is-outline {
+  -webkit-text-stroke: 1.5px var(--ink-strong);
+  color: var(--cream);
+}
+:root[data-theme='light'] .marquee svg {
+  fill: var(--ink-strong);
+}
+/* missions on a cobalt block */
+:root[data-theme='light'] .missions {
+  background: var(--cobalt);
+  color: #fff;
+  --text: #ffffff;
+  --muted: rgba(255, 255, 255, 0.78);
+  --faint: rgba(255, 255, 255, 0.6);
+  --line: rgba(255, 255, 255, 0.2);
+  --line-2: rgba(255, 255, 255, 0.35);
+}
+:root[data-theme='light'] .missions .eyebrow {
+  color: #ffd2bf;
+}
+:root[data-theme='light'] .missions .section-title em {
+  color: #fff;
+}
+:root[data-theme='light'] .mission-card {
+  --text: #0e1422;
+  --muted: #36404f;
+  --faint: #6a7383;
+  --line: rgba(14, 20, 34, 0.12);
+  --line-2: rgba(14, 20, 34, 0.25);
+  --line-3: rgba(14, 20, 34, 0.4);
+  color: var(--ink-strong);
+  background: var(--card);
+  border: 2px solid var(--ink-strong);
+  border-radius: 14px;
+  box-shadow: 8px 8px 0 var(--ink-strong);
+}
+:root[data-theme='light'] .mission-card:nth-child(odd) .mission-card__art {
+  background: var(--tint-pop);
+}
+:root[data-theme='light'] .mission-card:nth-child(even) .mission-card__art {
+  background: var(--tint-cobalt);
+}
+:root[data-theme='light'] .mission-card .chip--drone {
+  background: var(--cobalt);
+  color: #fff;
+  border-color: var(--cobalt);
+}
+:root[data-theme='light'] .mission-card .chip--robot {
+  background: var(--pop);
+  color: var(--ink-strong);
+  border-color: var(--ink-strong);
+}
+:root[data-theme='light'] .mission-art .beam,
+:root[data-theme='light'] .mission-art .orbit {
+  stroke: var(--cobalt);
+}
+:root[data-theme='light'] .mission-art .drone-mini,
+:root[data-theme='light'] .mission-art .robot-mini {
+  fill: var(--pop);
+}
+:root[data-theme='light'] .missions__end p {
+  color: #fff;
+}
+:root[data-theme='light'] .missions__end .btn--primary {
+  box-shadow: 5px 5px 0 #fff;
+  border-color: #fff;
+}
+/* contact on an orange block */
+:root[data-theme='light'] .contact {
+  background: var(--pop);
+  border-block: 2px solid var(--ink-strong);
+  --muted: #2a1a12;
+}
+:root[data-theme='light'] .contact .eyebrow {
+  color: var(--ink-strong);
+}
+:root[data-theme='light'] .contact__title em {
+  background: linear-gradient(transparent 58%, var(--cream) 58% 88%, transparent 88%);
+}
+:root[data-theme='light'] .contact .btn--primary {
+  background: var(--ink-strong);
+  color: #fff;
+  box-shadow: 5px 5px 0 var(--cream);
+}
+:root[data-theme='light'] .contact .btn--ghost {
+  background: var(--cream);
+}
+:root[data-theme='light'] .industries__list li::before {
+  background: var(--pop);
+  opacity: 1;
+}
+:root[data-theme='light'] .industries__list li:hover,
+:root[data-theme='light'] .industries__list li:focus-visible {
+  --muted: #0e1422;
+  --faint: #0e1422;
+  --gold-text: #0e1422;
+}
+:root[data-theme='light'] .footer__word span:nth-child(3n + 1):hover {
+  color: var(--pop);
+}
+:root[data-theme='light'] .footer__word span:nth-child(3n + 2):hover {
+  color: var(--cobalt);
+}
+:root[data-theme='light'] .split__half--air {
+  background: var(--tint-cobalt);
+}
+:root[data-theme='light'] .split__half--ground {
+  background: var(--tint-pop);
+}
+:root[data-theme='light'] .stats dd {
+  color: var(--cobalt);
+}
+:root[data-theme='light'] .layers__tabs button[aria-selected='true'],
+:root[data-theme='light'] .segmented button[aria-pressed='true'] {
+  background: var(--pop);
+  color: var(--ink-strong);
+}
+
+/* ───────── responsive ───────── */
+@media (max-width: 860px) {
+  .missions {
+    min-height: 0;
+  }
+  .missions__track {
+    width: auto;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding-bottom: 18px;
+    scrollbar-width: none;
+  }
+  .missions__track::-webkit-scrollbar {
+    display: none;
+  }
+  .mission-card {
+    width: 82vw;
+    scroll-snap-align: center;
+  }
+  .missions__end {
+    width: 70vw;
+    scroll-snap-align: center;
+  }
+  .missions__count {
+    display: none;
+  }
+  .hero-badge {
+    width: 84px;
+    height: 84px;
+    top: -96px;
+    right: 0;
+  }
+  .hud-frame {
+    display: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) and (min-width: 861px) {
+  .missions__track {
+    width: auto;
+    overflow-x: auto;
+  }
+}
+
+.static-flight__hero > div {
+  position: relative;
+}
+
+/* the tilted marquee tape is wider than the screen; clip it without making a scroll container (keeps sticky/pin working) */
+main {
+  overflow-x: clip;
+}

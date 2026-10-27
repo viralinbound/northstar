@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>Northstar | Drones and robots for site inspection</title>
+    <meta name="description" content="Survey drones and a four-legged inspection robot on one mission plan. Maps, 3D models and a short list of things to fix." />
+    <meta name="theme-color" content="#0a0f1a" />
+    <script>
+      // Set the theme before first paint to avoid a flash (saved choice, else OS setting).
+      try {
+        // ?theme=light or ?theme=dark opens that edition directly (and remembers it)
+        var q = new URLSearchParams(location.search).get('theme')
+        if (q === 'light' || q === 'dark') localStorage.setItem('ns-theme', q)
+        var t = localStorage.getItem('ns-theme')
+        if (t !== 'light' && t !== 'dark') t = matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark'
+        document.documentElement.dataset.theme = t
+        if (t === 'light') document.querySelector('meta[name="theme-color"]').setAttribute('content', '#f5f4f0')
+      } catch (e) {
+        document.documentElement.dataset.theme = 'dark'
+      }
+    </script>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta property="og:title" content="Northstar | Drones and robots for site inspection" />
+    <meta property="og:description" content="Fly the site. Walk the plant. Know what changed." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,300..800;1,62..125,300..800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  </head>
+  <body>
+    <div id="root"></div>
+    <noscript><p style="padding:24px;color:#fff">Northstar — drones, robotics and AI inspection. Enable JavaScript for the interactive experience.</p></noscript>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
