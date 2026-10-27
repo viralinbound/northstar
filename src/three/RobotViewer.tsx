@@ -3,6 +3,7 @@ import { Canvas, useFrame } from '@react-three/fiber'
 import * as THREE from 'three'
 import { Robot } from './Robot'
 import { BlobShadow } from './BlobShadow'
+import { StudioEnv } from './StudioEnv'
 import type { Theme } from '../lib/theme'
 
 export type RobotMode = 'stand' | 'walk' | 'scan'
@@ -46,6 +47,7 @@ export default function RobotViewer({ mode, active, theme, onReady }: Props) {
       <hemisphereLight args={light ? ['#fff6e8', '#b9ab95', 1.2] : ['#ffe7c2', '#1b1e26', 0.8]} key={theme} />
       <directionalLight position={[3, 5, 2]} intensity={2.1} color="#fff1dc" />
       <directionalLight position={[-4, 2, -3]} intensity={1.1} color="#f2c26b" />
+      <StudioEnv warm intensity={light ? 0.9 : 1.1} />
       <Stage mode={mode} light={light} />
     </Canvas>
   )

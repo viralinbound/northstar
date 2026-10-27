@@ -3,6 +3,7 @@ import { Canvas, useFrame } from '@react-three/fiber'
 import * as THREE from 'three'
 import { Drone } from './Drone'
 import { BlobShadow } from './BlobShadow'
+import { StudioEnv } from './StudioEnv'
 import type { Theme } from '../lib/theme'
 import { smoothstep } from '../lib/flight'
 
@@ -28,6 +29,7 @@ export default function DroneViewer({ progress, active, theme, onReady }: Props)
       <hemisphereLight args={light ? ['#ffffff', '#b8b2a6', 1.3] : ['#9db8ff', '#1a1612', 1]} key={theme} />
       <directionalLight position={[3, 6, 3]} intensity={2.2} color="#fff3e2" />
       <directionalLight position={[-4, 2, -3]} intensity={light ? 0.8 : 1.4} color={light ? '#9cb4ff' : '#9d7bff'} />
+      <StudioEnv intensity={light ? 0.9 : 1.1} />
       <Rig progress={progress} light={light} />
     </Canvas>
   )

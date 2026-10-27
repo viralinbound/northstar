@@ -34,12 +34,13 @@ export const Robot = forwardRef<THREE.Group, Props>(function Robot({ gait, scan 
 
   const m = useMemo(
     () => ({
-      shell: new THREE.MeshStandardMaterial({ color: '#2a2f38', roughness: 0.42, metalness: 0.55 }),
-      panel: new THREE.MeshStandardMaterial({ color: '#d7dbe2', roughness: 0.35, metalness: 0.2 }),
-      joint: new THREE.MeshStandardMaterial({ color: '#14181f', roughness: 0.5, metalness: 0.7 }),
-      gold: new THREE.MeshStandardMaterial({ color: '#f2c26b', roughness: 0.28, metalness: 0.7, emissive: '#6b4508', emissiveIntensity: 0.45 }),
-      visor: new THREE.MeshStandardMaterial({ color: '#05080d', roughness: 0.05, metalness: 0.9, emissive: '#f2c26b', emissiveIntensity: 0.9 }),
-      foot: new THREE.MeshStandardMaterial({ color: '#0d1015', roughness: 0.9 }),
+      // anodised aluminium body, powder-coated covers, machined joints, rubber feet
+      shell: new THREE.MeshPhysicalMaterial({ color: '#2b3038', roughness: 0.38, metalness: 0.85, clearcoat: 0.4, clearcoatRoughness: 0.3 }),
+      panel: new THREE.MeshPhysicalMaterial({ color: '#dfe2e7', roughness: 0.5, metalness: 0, clearcoat: 0.8, clearcoatRoughness: 0.2 }),
+      joint: new THREE.MeshPhysicalMaterial({ color: '#1a1d22', roughness: 0.28, metalness: 1 }),
+      gold: new THREE.MeshPhysicalMaterial({ color: '#d9a441', roughness: 0.25, metalness: 1 }),
+      visor: new THREE.MeshPhysicalMaterial({ color: '#04060a', roughness: 0.03, metalness: 0.3, clearcoat: 1, clearcoatRoughness: 0, emissive: '#ffb547', emissiveIntensity: 0.35 }),
+      foot: new THREE.MeshPhysicalMaterial({ color: '#111317', roughness: 0.95, metalness: 0, sheen: 0.4 }),
     }),
     [],
   )

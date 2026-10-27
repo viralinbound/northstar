@@ -31,12 +31,15 @@ export const Drone = forwardRef<THREE.Group, Props>(function Drone({ spin, explo
 
   const mats = useMemo(
     () => ({
-      shell: new THREE.MeshStandardMaterial({ color: '#e9ecf1', roughness: 0.38, metalness: 0.15 }),
-      dark: new THREE.MeshStandardMaterial({ color: '#1b2029', roughness: 0.55, metalness: 0.4 }),
-      blade: new THREE.MeshStandardMaterial({ color: '#2a303b', roughness: 0.6 }),
-      gold: new THREE.MeshStandardMaterial({ color: '#f2c26b', roughness: 0.3, metalness: 0.6, emissive: '#5a3a08', emissiveIntensity: 0.4 }),
-      lens: new THREE.MeshStandardMaterial({ color: '#0b1220', roughness: 0.05, metalness: 0.9, emissive: '#3be3f6', emissiveIntensity: 0.8 }),
-      cell: new THREE.MeshStandardMaterial({ color: '#2d3440', roughness: 0.5, metalness: 0.3 }),
+      // injection-moulded shell with a clear lacquer, like real airframes
+      shell: new THREE.MeshPhysicalMaterial({ color: '#e7eaee', roughness: 0.42, metalness: 0, clearcoat: 1, clearcoatRoughness: 0.12, sheen: 0.2 }),
+      // carbon / anodised parts
+      dark: new THREE.MeshPhysicalMaterial({ color: '#16191f', roughness: 0.32, metalness: 0.55, clearcoat: 0.6, clearcoatRoughness: 0.25 }),
+      blade: new THREE.MeshPhysicalMaterial({ color: '#1d2027', roughness: 0.55, metalness: 0, clearcoat: 0.3 }),
+      gold: new THREE.MeshPhysicalMaterial({ color: '#d9a441', roughness: 0.22, metalness: 1 }),
+      // camera glass: dark coated optic with a faint cyan coating reflection
+      lens: new THREE.MeshPhysicalMaterial({ color: '#05070b', roughness: 0.02, metalness: 0.2, clearcoat: 1, clearcoatRoughness: 0, iridescence: 0.6, iridescenceIOR: 1.6 }),
+      cell: new THREE.MeshPhysicalMaterial({ color: '#2a2f38', roughness: 0.6, metalness: 0.1 }),
       disc: new THREE.MeshBasicMaterial({ color: '#c9d4e3', transparent: true, opacity: 0, depthWrite: false, side: THREE.DoubleSide }),
     }),
     [],

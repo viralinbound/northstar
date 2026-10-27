@@ -2,7 +2,8 @@ import { lazy, Suspense, useRef, useState } from 'react'
 import { hasWebGL, useInView, useNearViewport, useReducedMotion } from '../lib/env'
 import { useTheme } from '../lib/theme'
 import type { RobotMode } from '../three/RobotViewer'
-import { ROBOT_CONFIG, ROBOT_SCENARIOS } from './content'
+import { ROBOT_CONFIG, ROBOT_SCENARIOS, SCENARIO_PHOTO } from './content'
+import { Photo } from './Photo'
 import { StaticRobotArt } from './Icons'
 
 const RobotViewer = lazy(() => import('../three/RobotViewer'))
@@ -118,8 +119,13 @@ export function Robotics() {
                 ))}
               </div>
               <div id="scenario-panel" role="tabpanel" aria-labelledby={`tab-${current.id}`} className="scenarios__panel" key={current.id}>
-                <h4>{current.title}</h4>
-                <p>{current.body}</p>
+                <div className="scenarios__photo">
+                  <Photo name={SCENARIO_PHOTO[current.id]} sizes="(max-width: 1024px) 90vw, 40vw" />
+                </div>
+                <div className="scenarios__text">
+                  <h4>{current.title}</h4>
+                  <p>{current.body}</p>
+                </div>
               </div>
             </div>
           </div>

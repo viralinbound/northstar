@@ -179,3 +179,49 @@ export const MISSIONS = [
     body: 'An orbit at a safe distance, a close-up of every fixing, and nobody leaves the ground.',
   },
 ] as const
+
+/**
+ * Real photographs (Unsplash Licence: free for commercial use, credit appreciated).
+ * Files live in /public/photos as `<name>.webp` plus a 760px `<name>-sm.webp`.
+ */
+export const PHOTOS = {
+  'hero-dark': { by: 'insung yoon', page: 'https://unsplash.com/photos/a-drone-flies-against-a-sunsets-backdrop-BBoyDY4vzOs', alt: 'A small drone silhouetted against a sunset over water' },
+  'site-crane': { by: 'Centar MURID', page: 'https://unsplash.com/photos/an-aerial-view-of-a-building-under-construction-TBzjhks3G48', alt: 'Aerial view of a building site with a tower crane' },
+  'site-top': { by: 'Centar MURID', page: 'https://unsplash.com/photos/an-aerial-view-of-a-construction-site-oLaSjZgtHks', alt: 'Top-down aerial view of a construction site' },
+  'substation-dusk': { by: 'American Public Power Association', page: 'https://unsplash.com/photos/gray-metal-power-station-u719UbWj0us', alt: 'Electrical substation silhouetted at dusk' },
+  'substation-day': { by: 'American Public Power Association', page: 'https://unsplash.com/photos/electrical-transformer-in-power-substation-VuR4oHZ3ucc', alt: 'Transformer in an electrical substation' },
+  roof: { by: 'Alex Reynolds', page: 'https://unsplash.com/photos/aerial-view-of-a-modern-office-building-complex-rHvi-_-0jUU', alt: 'Aerial view of large warehouse roofs' },
+  stockpile: { by: 'Colin Miller', page: 'https://unsplash.com/photos/map-zVTXvkZyxCY', alt: 'Aerial view of an aggregate yard with stockpiles' },
+  mast: { by: 'Tony Stoddard', page: 'https://unsplash.com/photos/gray-metal-tower-with-accessories-DgZxBnZeQo8', alt: 'Telecom mast with antenna dishes' },
+  tunnel: { by: 'Bradley Andrews', page: 'https://unsplash.com/photos/a-long-unfinished-concrete-tunnel-with-pipes-and-wires-rNXxhKcFWGo', alt: 'Long service tunnel lined with pipes' },
+  'tunnel-works': { by: 'Ricardo Gomez Angel', page: 'https://unsplash.com/photos/construction-truck-inside-dark-tunnel-F2iCP_knaj8', alt: 'Truck inside a tunnel under construction' },
+  plant: { by: 'iSawRed', page: 'https://unsplash.com/photos/a-close-up-of-a-machine-pCZsRKT-_Ns', alt: 'Pipework inside a plant engine room' },
+  engineers: { by: 'alan boyce', page: 'https://unsplash.com/photos/two-construction-workers-review-plans-on-a-tablet-gyrKtgqMChY', alt: 'Two site workers reviewing plans on a tablet' },
+} as const
+
+export type PhotoName = keyof typeof PHOTOS
+
+export const MISSION_PHOTO: Record<string, PhotoName> = {
+  roof: 'roof',
+  stockpile: 'stockpile',
+  substation: 'substation-dusk',
+  tunnel: 'tunnel',
+  mast: 'mast',
+}
+
+export const SCENARIO_PHOTO: Record<string, PhotoName> = {
+  substation: 'substation-day',
+  plant: 'plant',
+  construction: 'engineers',
+  tunnels: 'tunnel-works',
+}
+
+export const INDUSTRY_PHOTO: Record<string, PhotoName> = {
+  Construction: 'site-crane',
+  'Energy & utilities': 'substation-day',
+  'Mining & quarries': 'stockpile',
+  Infrastructure: 'tunnel-works',
+  'Oil & gas': 'plant',
+  Telecom: 'mast',
+  Facilities: 'roof',
+}

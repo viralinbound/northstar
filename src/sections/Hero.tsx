@@ -1,10 +1,7 @@
-import { lazy, Suspense, useRef, useState } from 'react'
-import { hasWebGL, useInView, useMediaQuery, useReducedMotion } from '../lib/env'
 import { useTheme } from '../lib/theme'
 import { HERO } from './content'
 import { LeadForm } from './LeadForm'
-
-const HeroDrone = lazy(() => import('../three/HeroDrone'))
+import { Photo } from './Photo'
 
 const NEXT = [
   ['Tell us about the site', 'Three quick steps, about two minutes.'],
@@ -14,24 +11,15 @@ const NEXT = [
 
 /** Ad landing hero: the offer and the form are both visible without scrolling. */
 export function Hero() {
-  const section = useRef<HTMLElement>(null)
-  const inView = useInView(section)
-  const reduced = useReducedMotion()
-  const wide = useMediaQuery('(min-width: 1025px)')
   const theme = useTheme()
-  const [ready, setReady] = useState(false)
-  const show3D = wide && !reduced && hasWebGL()
 
   return (
-    <section ref={section} id="lead" className="hero" aria-labelledby="hero-title">
+    <section id="lead" className="hero" aria-labelledby="hero-title">
+      {/* real photograph: dusk drone flight in dark mode, a drone's-eye site view in light mode */}
+      <div className="hero__photo" aria-hidden="true">
+        <Photo key={theme} name={theme === 'dark' ? 'hero-dark' : 'site-crane'} className={theme === 'dark' ? 'is-shifted' : ''} priority sizes="100vw" />
+      </div>
       <div className="hero__bg" aria-hidden="true" />
-      {show3D && (
-        <div className={`hero__canvas ${ready ? 'is-ready' : ''}`}>
-          <Suspense fallback={null}>
-            <HeroDrone active={inView} theme={theme} onReady={() => setReady(true)} />
-          </Suspense>
-        </div>
-      )}
       <div className="container hero__grid">
         <div className="hero__copy">
           <p className="eyebrow eyebrow--chip hero-fade">{HERO.eyebrow}</p>

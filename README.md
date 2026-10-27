@@ -24,4 +24,8 @@ npm run build    # typecheck + production build
 
 Copy `.env.example` to `.env` and set `VITE_LEAD_ENDPOINT` to a JSON POST endpoint (Formspree, a Google Apps Script, a CRM webhook). Without it, submitting opens the visitor's email app pre-filled to `CONTACT_EMAIL` in `src/sections/content.ts`.
 
+## Photography
+
+Real photographs from Unsplash (Unsplash Licence: free for commercial use). Files live in `public/photos/` and are credited in the site footer; the list with source links is `PHOTOS` in `src/sections/content.ts`. Hardware seen in photos belongs to its makers and is shown for context only.
+
 Capabilities shown are proposed, and all maps, 3D scenes and mission data are illustrations, not real sites.

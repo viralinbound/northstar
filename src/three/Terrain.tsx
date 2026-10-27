@@ -42,6 +42,19 @@ const frag = /* glsl */ `
   varying vec3 vWorld;
   varying vec3 vNormal;
 
+  // cheap value noise for ground detail (grass/soil patches, rock on slopes)
+  float hash(vec2 p) { return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453); }
+  float vnoise(vec2 p) {
+    vec2 i = floor(p), f = fract(p);
+    vec2 u = f * f * (3.0 - 2.0 * f);
+    return mix(mix(hash(i), hash(i + vec2(1, 0)), u.x), mix(hash(i + vec2(0, 1)), hash(i + vec2(1, 1)), u.x), u.y);
+  }
+  float fbm(vec2 p) {
+    float v = 0.0, a = 0.5;
+    for (int k = 0; k < 4; k++) { v += a * vnoise(p); p *= 2.03; a *= 0.5; }
+    return v;
+  }
+
   float line(float coord, float width) {
     float d = abs(fract(coord - 0.5) - 0.5) / fwidth(coord);
     return 1.0 - min(d / width, 1.0);
@@ -52,6 +65,15 @@ const frag = /* glsl */ `
     float h = vWorld.y;
     vec3 base = mix(uLow, uMid, smoothstep(-2.0, 10.0, h));
     base = mix(base, uHigh, smoothstep(22.0, 48.0, h));
+    // natural variation: grass and bare-soil patches, darker gullies, rock where it is steep
+    float patchN = fbm(vWorld.xz * 0.035);
+    float grain = fbm(vWorld.xz * 0.6);
+    vec3 grass = base * vec3(0.82, 1.08, 0.78);
+    vec3 soil = base * vec3(1.12, 0.98, 0.84);
+    base = mix(grass, soil, smoothstep(0.42, 0.68, patchN));
+    float steep = 1.0 - normalize(vNormal).y;
+    base = mix(base, uHigh * 0.9, smoothstep(0.25, 0.55, steep));
+    base *= 0.86 + grain * 0.28;
 
     vec3 sunDir = normalize(vec3(-0.45, 0.55, -0.7));
     float diff = max(dot(n, sunDir), 0.0);

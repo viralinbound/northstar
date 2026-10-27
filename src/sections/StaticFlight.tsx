@@ -1,6 +1,7 @@
 import { CHAPTERS } from '../lib/flight'
 import { AERIAL_CAPS, CHAPTER_COPY } from './content'
-import { CapIcon, StaticDroneArt } from './Icons'
+import { CapIcon } from './Icons'
+import { Photo } from './Photo'
 
 /** Same story as the flight sequence, laid out as ordinary sections. Used for reduced motion or no WebGL. */
 export function StaticFlight() {
@@ -16,7 +17,7 @@ export function StaticFlight() {
             The drone lifts off, maps the site, inspects it, builds the 3D model and hands over to the robot.
           </p>
         </div>
-        <StaticDroneArt />
+        <Photo name="hero-dark" className="static-art" />
       </div>
       <div className="container static-flight__chapters">
         {CHAPTERS.slice(1).map((c) => {

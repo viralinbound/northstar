@@ -3,6 +3,8 @@ import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import { PerformanceMonitor } from '@react-three/drei'
 import * as THREE from 'three'
 import { Drone } from './Drone'
+import { StudioEnv } from './StudioEnv'
+import { Trees } from './Trees'
 import { Robot } from './Robot'
 import { Terrain, type TerrainUniforms } from './Terrain'
 import { PALETTES, type ScenePalette } from './palette'
@@ -36,6 +38,7 @@ export default function FlightScene({ active, compact, theme, onReady }: Props) 
       <hemisphereLight args={palette.hemi} key={theme} />
       <directionalLight position={[-60, 50, -90]} intensity={palette.sun[1]} color={palette.sun[0]} />
       <directionalLight position={[40, 30, 40]} intensity={palette.fill} color="#9cc7ff" />
+      <StudioEnv warm={theme === 'dark'} intensity={theme === 'dark' ? 0.55 : 0.8} />
       <World compact={compact} palette={palette} />
     </Canvas>
   )
@@ -198,6 +201,7 @@ function World({ compact, palette }: { compact: boolean; palette: ScenePalette }
     <>
       <Sky starCount={compact ? 500 : 1200} palette={palette} />
       <Terrain uniforms={terrainU} segments={compact ? 140 : 220} />
+      <Trees count={compact ? 700 : 1800} dark={palette.stars} />
       <LaunchPad palette={palette} />
       <ConstructionSite uniforms={siteU} edgesRef={edges} palette={palette} />
       <Facility palette={palette} />

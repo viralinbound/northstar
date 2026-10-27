@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { setTheme, useTheme } from '../lib/theme'
-import { INDUSTRIES, MARQUEE, PLATFORM_STEPS } from './content'
+import { INDUSTRIES, INDUSTRY_PHOTO, MARQUEE, PHOTOS, PLATFORM_STEPS } from './content'
+import { Photo } from './Photo'
 import { Logo } from './Icons'
 import { LeadForm } from './LeadForm'
 
@@ -138,10 +139,12 @@ export function Platform() {
         </ol>
         <div className="split reveal">
           <div className="split__half split__half--air">
+            <Photo name="site-top" className="split__photo" sizes="(max-width: 760px) 100vw, 50vw" />
             <p className="mono split__k">From the air</p>
             <p>Site maps, levels, stockpile volumes, roof and façade condition, what changed this week.</p>
           </div>
           <div className="split__half split__half--ground">
+            <Photo name="plant" className="split__photo" sizes="(max-width: 760px) 100vw, 50vw" />
             <p className="mono split__k">On the ground</p>
             <p>Dial readings, hot joints, leaks, indoor progress and spaces nobody wants to crawl into.</p>
           </div>
@@ -167,6 +170,11 @@ export function Industries() {
               <span className="industries__n mono">{String(i + 1).padStart(2, '0')}</span>
               <span className="industries__name">{x.name}</span>
               <span className="industries__note">{x.note}</span>
+              {INDUSTRY_PHOTO[x.name] && (
+                <span className="industries__peek" aria-hidden="true">
+                  <Photo name={INDUSTRY_PHOTO[x.name]} sizes="280px" />
+                </span>
+              )}
               <svg className="industries__arrow" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
                 <path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" strokeWidth="1.6" />
               </svg>
@@ -259,6 +267,18 @@ export function Footer() {
         </nav>
         <p className="fineprint">
           Capabilities shown are proposed and subject to confirmation. 3D scenes and maps are illustrations, not real sites. © {new Date().getFullYear()} Northstar.
+        </p>
+        <p className="fineprint footer__credits">
+          Photography from Unsplash by{' '}
+          {Array.from(new Map(Object.values(PHOTOS).map((p) => [p.by, p.page])).entries()).map(([by, page], i, arr) => (
+            <span key={by}>
+              <a href={page} target="_blank" rel="noopener noreferrer">
+                {by}
+              </a>
+              {i < arr.length - 1 ? ', ' : '.'}
+            </span>
+          ))}{' '}
+          Hardware in photos belongs to its makers and is shown for context.
         </p>
       </div>
     </footer>
